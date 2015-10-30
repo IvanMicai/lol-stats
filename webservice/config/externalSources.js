@@ -9,7 +9,7 @@ module.exports = {
 	summonerRankedStatsById: function(apiKey, region, season, name){
 		return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/stats/by-summoner/' + name + '/ranked?season=' + season + '&api_key=' + apiKey
 	},
-	summonerSummaryStatsById: function(apiKey, region, season, name){
+	summonerSummaryById: function(apiKey, region, season, name){
 		return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/stats/by-summoner/' + name + '/summary?season=' + season + '&api_key=' + apiKey
 	},
 	matchById: function(apiKey, region, id){
