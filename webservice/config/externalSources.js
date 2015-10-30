@@ -15,7 +15,7 @@ module.exports = {
 	match: function(apiKey, matchId){
 		return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/match/' + matchId + '?api_key=' + apiKey
 	},
-	matchListBySummonerId: function(apiKey, summonerId){
+	matchListBySummonerId: function(apiKey, region, summonerId){
 		return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.2/matchlist/by-summoner/' + summonerId + '?api_key=' + apiKey
 	}
 }

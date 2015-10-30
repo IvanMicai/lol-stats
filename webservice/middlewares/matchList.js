@@ -1,14 +1,16 @@
 /**
- *  Summoner Middleware
+ *  Match List Middleware
  */
-var env        = process.env.NODE_ENV || 'development'
-var request    = require('request');
-var path       = require('../utils/path.js')
-var envConfig  = require(path.config + '/env')[env]
+var env       = process.env.NODE_ENV || 'development'
 
-var summonerModel   = require(path.models + '/summoner')
+var request   = require('request');
+var path      = require('../utils/path.js')
+var envConfig = require(path.config + '/env')[env]
+
+var matchListModel   = require(path.models + '/matchList')
 var externalSources = require(path.config + '/externalSources')
 var credentials     = require(path.config + '/credentials')
+
 
 /**
  *  Internal Loader
@@ -19,9 +21,9 @@ module.exports.internal = function (req, res, next) {
 		return next()
 	}
 
-	summonerModel.findOne({ nameLowercase: req.params.name.toLowerCase() }, function(err, summoner) {
-		if(summoner){
-			res.data = summoner
+	matchListModel.findOne({ summonerId: parseInt(req.params.summonerId, 10) }, function(err, matchList) {
+		if(matchList){
+			res.data = matchList
 			res.dataSource = 'internal'
 			return next()
 		}else{
@@ -40,7 +42,7 @@ module.exports.external = function (req, res, next) {
 		return next()
 	}
 
-	var url = externalSources.summonerByName(credentials.apiKey, req.query.region, req.params.name)
+	var url = externalSources.matchListBySummonerId(credentials.apiKey, req.query.region, req.params.summonerId)
 
 	request(url, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -63,11 +65,11 @@ module.exports.save = function (req, res, next) {
 		return next()
 	}
 
-	summonerModel.findOneAndUpdate({ name: req.params.name.toLowerCase() }, res.data, {new: true, upsert: true}, function (err, summoner) {
+	matchListModel.findOneAndUpdate({ summonerId: parseInt(req.params.summonerId, 10) }, res.data, {new: true, upsert: true}, function (err, matchList) {
 		if (err){
 			return next()
 		}else{
-	    	res.data = summoner
+	    	res.data = matchList
 		 	return next()
 		}
 	})
