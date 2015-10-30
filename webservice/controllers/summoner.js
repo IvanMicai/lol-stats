@@ -5,5 +5,13 @@
 var request = require('request');
 
 module.exports = function (req, res, next) { 
-	res.send(res.data.summoner); 
+	//Fix LOL Api root Key
+	if(res.dataSource === 'external'){
+		res.data = res.data[Object.keys(res.data)];
+	}
+	
+	//Add Lowercase name
+	res.data.nameLowercase = req.params.name.toLowerCase()
+	
+	return next()	
 };

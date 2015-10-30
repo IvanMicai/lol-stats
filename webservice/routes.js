@@ -2,26 +2,26 @@ var path = require('./utils/path.js')
 
 //Requires
 var initializeMiddleware = require(path.middlewares + '/initialize')
-var summonerInternalMiddleware = require(path.middlewares + '/summonerInternal')
 
-var summonerExternalMiddleware = require(path.middlewares + '/summonerExternal')
+var summonerMiddleware = require(path.middlewares + '/summoner')
 
-var summonerSaveMiddleware = require(path.middlewares + '/summonerSave')
 
 //var matchesMiddleware = require(path.middlewares + '/matches')
 //var matchlistMiddleware = require(path.middlewares + '/matchlist')
 
 var summonerController = require(path.controllers + '/summoner')
+var responseHandlerController = require(path.controllers + '/responseHandler')
 
 //Routes
 module.exports = function (app) {
   app.get( '/summoner/:name', 
   	initializeMiddleware, 
-  	summonerInternalMiddleware, 
-  	summonerExternalMiddleware, 
-  	summonerSaveMiddleware, 
+    summonerMiddleware.internal,
+    summonerMiddleware.external,
   	/*matchesMiddleware,*/ 
   	/*matchlistMiddleware,*/ 
-  	summonerController
+  	summonerController,
+    summonerMiddleware.save,
+  	responseHandlerController
   );
 }
