@@ -1,9 +1,17 @@
 var express = require('express');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser')
+var fs = require('fs');
+
+
 var app = express();
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
+// parse application/json
+app.use(bodyParser.json())
+
+require('./routes.js')(app)
+
+//mongoose.connect('mongodb://lol-stats-mongoservice/test');
 
 var server = app.listen(3000, function () {
   var host = server.address().address;
