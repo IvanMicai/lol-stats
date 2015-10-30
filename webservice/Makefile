@@ -36,7 +36,17 @@ DOCKER_IMAGE         = ivanmicai/lol-stats-webservice
 
 DOCKER_NAME          = --name $(NAME)
 DOCKER_VOLUME        = -v `pwd`:/app
+DOCKER_MONGO_LINK    = --link lol-stats-mongoservice:lol-stats-mongoservice
 DOCKER_PORT          = -p 3000:3000
+
+
+#DEPENDENCES
+MONGO_NAME                 = lol-stats-mongoservice
+DOCKER_MONGO_IMAGE         = ivanmicai/lol-stats-mongoservice
+
+DOCKER_MONGO_NAME          = --name $(MONGO_NAME)
+DOCKER_MONGO_VOLUME        = -v /var/lol-stats/mongo:/data/db
+DOCKER_MONGO_PORT          = -p 27017:27017
 
 .PHONY: image-build image-push image-run image-command image-destroy run stop command npm-update
 
@@ -51,14 +61,27 @@ image-destroy:
 	$(DOCKER_RMI) $(DOCKER_IMAGE)
 
 run:
-	@$(DOCKER_RUN) -d $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_PORT) $(DOCKER_IMAGE) node server.js
+	@$(DOCKER_RUN) -d $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_PORT) $(DOCKER_MONGO_LINK) $(DOCKER_IMAGE) node server.js
+
+run-debug:
+	@$(DOCKER_RUN) --rm -t -t $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_PORT) $(DOCKER_MONGO_LINK) $(DOCKER_IMAGE) node server.js
 
 stop:
 	-@$(DOCKER_STOP) $(NAME)
 	-@$(DOCKER_PS) -a | grep $(DOCKER_IMAGE) | awk '{ print $$1 }' | xargs $(DOCKER_RM)
 
+dependence-run:
+	@$(DOCKER_RUN) -d $(DOCKER_MONGO_NAME) $(DOCKER_MONGO_VOLUME) $(DOCKER_MONGO_PORT) $(DOCKER_MONGO_IMAGE) mongod --smallfiles --noscripting
+
+dependence-stop:
+	-@$(DOCKER_STOP) $(MONGO_NAME)
+	-@$(DOCKER_PS) -a | grep $(DOCKER_MONGO_IMAGE) | awk '{ print $$1 }' | xargs $(DOCKER_RM)
+
 command:
-	@$(DOCKER_RUN) --rm -t -i $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_IMAGE) /bin/sh
+	@$(DOCKER_RUN) --rm -t -i $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_PORT) $(DOCKER_MONGO_LINK)  $(DOCKER_IMAGE) /bin/sh
 
 npm-update:
 	@$(DOCKER_RUN) --rm -t -i $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_IMAGE) /bin/sh -c 'npm install'
+
+mongo-console:
+	@$(DOCKER_RUN) --rm -i -t --name lol-stats-mongoservice-script $(DOCKER_MONGO_LINK) $(DOCKER_MONGO_VOLUME) $(DOCKER_MONGO_IMAGE) mongo --host lol-stats-mongoservice
