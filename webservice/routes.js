@@ -5,6 +5,7 @@ var initializeMiddleware = require(path.middlewares + '/initialize')
 
 var summonerMiddleware = require(path.middlewares + '/summoner')
 var summonerSummaryMiddleware = require(path.middlewares + '/summonerSummary')
+var summonerChampionsMiddleware = require(path.middlewares + '/summonerChampions')
 var matchMiddleware = require(path.middlewares + '/match')
 var matchListMiddleware = require(path.middlewares + '/matchList')
 
@@ -13,6 +14,7 @@ var matchListMiddleware = require(path.middlewares + '/matchList')
 
 var summonerController = require(path.controllers + '/summoner')
 var summonerSummaryController = require(path.controllers + '/summonerSummary')
+var summonerChampionsController = require(path.controllers + '/summonerChampions')
 var matchController = require(path.controllers + '/match')
 var matchListController = require(path.controllers + '/matchList')
 var responseHandlerController = require(path.controllers + '/responseHandler')
@@ -52,6 +54,15 @@ module.exports = function (app) {
     summonerSummaryMiddleware.external,
     summonerSummaryController,
     summonerSummaryMiddleware.save,
+    responseHandlerController
+  );
+
+  app.get( '/summoner-champions/:summonerId', 
+    initializeMiddleware, 
+    summonerChampionsMiddleware.internal,
+    summonerChampionsMiddleware.external,
+    summonerChampionsController,
+    summonerChampionsMiddleware.save,
     responseHandlerController
   );
 }

@@ -6,7 +6,7 @@ module.exports = {
 	summonerByName: function(apiKey, region, name){
 		return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + name + '?api_key=' + apiKey
 	},
-	summonerRankedStatsById: function(apiKey, region, season, name){
+	summonerChampionsById: function(apiKey, region, season, name){
 		return 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/stats/by-summoner/' + name + '/ranked?season=' + season + '&api_key=' + apiKey
 	},
 	summonerSummaryById: function(apiKey, region, season, name){
