@@ -5,5 +5,7 @@ League of Legends Statistics Demo
 ---------
 [Once you have docker](https://docs.docker.com/installation/) just run:
 
-    make run
+    make build (Initialization)
+    make make credentials-apikey key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (Create credentials for Roit API)
+    make run (Start Containers)
 

@@ -1,4 +1,17 @@
-.PHONY: image-build image-push image-run image-command image-destroy run stop command npm-update
+.PHONY: build run stop
+
+credentials-apikey:
+	@echo "/**"                  > webservice/config/credentials.js
+	@echo " *  Credentials"     >> webservice/config/credentials.js
+	@echo " */"                 >> webservice/config/credentials.js
+	@echo ""                    >> webservice/config/credentials.js
+	@echo "module.exports = {"  >> webservice/config/credentials.js
+	@echo "	apiKey: '"$(key)"'" >> webservice/config/credentials.js
+	@echo "}"                   >> webservice/config/credentials.js
+
+build:
+	cd webservice; make npm-update
+	cd webapp; make npm-update; make bower-update
 
 run:
 	cd mongoservice; make run
