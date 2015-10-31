@@ -14,6 +14,17 @@ var app = express();
 // parse application/json
 app.use(bodyParser.json())
 
+app.all('*', function(req, res, next) {
+  if (env !== 'test' && envConfig.allowedDomains.indexOf(req.get('Origin')) === -1){
+    return res.sendStatus(401);
+  }
+
+  res.header("Access-Control-Allow-Origin", req.get('Origin'));
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+  next();
+ });
+
 require('./routes.js')(app)
 
 //mongoose.connect('mongodb://lol-stats-mongoservice/test');

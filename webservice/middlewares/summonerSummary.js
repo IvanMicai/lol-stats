@@ -20,7 +20,6 @@ module.exports.internal = function (req, res, next) {
 	if(req.query.renew === 'true'){
 		return next()
 	}
-	console.log({ summonerId: parseInt(req.params.summonerId, 10), region: req.query.region, season: req.query.season })
 	summonerSummaryModel.findOne({ summonerId: parseInt(req.params.summonerId, 10), region: req.query.region, season: req.query.season }, function(err, summonerSummary) {
 		if(summonerSummary){
 			res.data = summonerSummary

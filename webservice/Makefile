@@ -70,13 +70,6 @@ stop:
 	-@$(DOCKER_STOP) $(NAME)
 	-@$(DOCKER_PS) -a | grep $(DOCKER_IMAGE) | awk '{ print $$1 }' | xargs $(DOCKER_RM)
 
-dependence-run:
-	@$(DOCKER_RUN) -d $(DOCKER_MONGO_NAME) $(DOCKER_MONGO_VOLUME) $(DOCKER_MONGO_PORT) $(DOCKER_MONGO_IMAGE) mongod --smallfiles --noscripting
-
-dependence-stop:
-	-@$(DOCKER_STOP) $(MONGO_NAME)
-	-@$(DOCKER_PS) -a | grep $(DOCKER_MONGO_IMAGE) | awk '{ print $$1 }' | xargs $(DOCKER_RM)
-
 command:
 	@$(DOCKER_RUN) --rm -t -i $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_PORT) $(DOCKER_MONGO_LINK)  $(DOCKER_IMAGE) /bin/sh
 

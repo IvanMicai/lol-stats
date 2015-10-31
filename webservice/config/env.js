@@ -5,14 +5,14 @@
 module.exports = {
 	development: {
 		mongoUrl: 'mongodb://lol-stats-mongoservice/dev-lol-stats',
-		crossDomain: []
+		allowedDomains: ['http://localhost:9000', undefined]
 	},
 	qa: {
 		mongoUrl: 'mongodb://localhost/qa-lol-stats',
-		crossDomain: []
+		allowedDomains: []
 	},
 	production: {
 		mongoUrl: 'mongodb://localhost/prod-lol-stats',
-		crossDomain: []
+		allowedDomains: []
 	}
 }
