@@ -62,3 +62,7 @@ command:
 
 npm-update:
 	@$(DOCKER_RUN) --rm -t -i $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_IMAGE) /bin/sh -c 'npm install'
+
+mongo-console:
+	@$(DOCKER_RUN) --rm -t -i --name lol-stats-mongoservice-script $(DOCKER_VOLUME) $(DOCKER_IMAGE) mongo --host lol-stats-mongoservice
+
