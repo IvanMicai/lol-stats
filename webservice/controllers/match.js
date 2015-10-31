@@ -12,8 +12,9 @@ module.exports = function (req, res, next) {
 			data: res.data, 
 		};
 
-		res.data = match;
+		
 	}
 
 	return next()	
 };
+
