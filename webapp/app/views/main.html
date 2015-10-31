@@ -1,23 +1,112 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#/">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
+<div class="row">
+  <div class="col-lg-12">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="summonerName" class="col-sm-2 control-label">{{ 'SUMMONER' | translate }}</label>
+        <div class="col-sm-10">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ regionCode | translate }}<span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li><a href="javascript:void(0)" ng-click="setRegion('BR')">{{ 'REGION_BR' | translate }}</a></li>
+                <li><a href="javascript:void(0)" ng-click="setRegion('EUNE')">{{ 'REGION_EUNE' | translate }}</a></li>
+                <li><a href="javascript:void(0)" ng-click="setRegion('EUW')">{{ 'REGION_EUW' | translate }}</a></li>
+                <li><a href="javascript:void(0)" ng-click="setRegion('KR')">{{ 'REGION_KR' | translate }}</a></li>
+                <li><a href="javascript:void(0)" ng-click="setRegion('LAN')">{{ 'REGION_LAN' | translate }}</a></li>
+                <li><a href="javascript:void(0)" ng-click="setRegion('LAS')">{{ 'REGION_LAS' | translate }}</a></li>
+                <li><a href="javascript:void(0)" ng-click="setRegion('NA')">{{ 'REGION_NA' | translate }}</a></li>
+                <li><a href="javascript:void(0)" ng-click="setRegion('OCE')">{{ 'REGION_OCE' | translate }}</a></li>
+                <li><a href="javascript:void(0)" ng-click="setRegion('RU')">{{ 'REGION_RU' | translate }}</a></li>
+                <li><a href="javascript:void(0)" ng-click="setRegion('TR')">{{ 'REGION_TR' | translate }}</a></li>
+              </ul>
+            </div><!-- /btn-group -->
+            <input type="text" class="form-control" ng-model="summonerName" id="summonerName" placeholder="{{ 'SUMMONER_NAME' | translate }}" aria-label="...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" ng-click="searchSummoner()" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </span>
+          </div><!-- /input-group -->
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-lg-12">
+    <div class="media" style="margin-bottom: 10px">
+      <div class="media-left">
+        <a href="">
+          <img ng-src="http://sk2.op.gg/images/profile_icons/profileIcon{{ summoner.profileIconId }}.jpg" class="media-object" alt="{{ summoner.name }}" width="128">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading">{{ summoner.name }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <ul class="nav nav-tabs nav-justified">
+      <li role="presentation" ng-click="profileTabSwitch('matches')" ng-class="{'active': summonerTab.matches}"><a href="javascript:void(0)">{{ 'MATCHES' | translate }}</a></li>
+      <li role="presentation" ng-click="profileTabSwitch('champions')"  ng-class="{'active': summonerTab.champions}"><a href="javascript:void(0)">{{ 'CHAMPIONS' | translate }}</a></li>
+      <li role="presentation" ng-click="profileTabSwitch('season')"  ng-class="{'active': summonerTab.season}"><a href="javascript:void(0)">{{ 'SEASON' | translate }}</a></li>
+    </ul>
+    <div ng-show="summonerTab.matches">
+      <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Column heading</th>
+          <th>Column heading</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="active" ng-repeat="match in matchList.matches">
+          <td>{{match.queue}}</td>
+          <td>{{match.lane}}</td>
+          <td>{{match.role}}</td>
+        </tr>
+      </tbody>
+    </table>
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
 
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
 
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+    </div>
+    <div ng-show="summonerTab.champions">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>PR</th>
+            <th>W</th>
+            <th>L</th>
+            <th>P</th>
+            <th>W%</th>
+            <th>K/D/A</th>
+            <th>KDA</th>
+            <th>G</th>
+            <th>PK</th>
+            <th>FB</th>
+            <th>LH~</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="active" ng-repeat="champion in summonerChampions.data.champions | orderBy:'-stats.totalSessionsWon'">
+            <td><img ng-src="images/champions/{{championsMap[champion.id]}}.png" width="64" alt="{{championsMap[champion.id]}}"></td>
+            <td>{{champion.pickRate | number:2}}</td>
+            <td>{{champion.stats.totalSessionsWon}}</td>
+            <td>{{champion.stats.totalSessionsLost}}</td>
+            <td>{{champion.stats.totalSessionsPlayed}}</td>
+            <td>{{champion.stats.totalSessionsWon/champion.stats.totalSessionsPlayed*100  | number:0 }}</td>
+            <td>{{champion.stats.totalChampionKills}}/{{champion.stats.totalDeathsPerSession}}/{{champion.stats.totalAssists}}</td>
+            <td>{{(champion.stats.totalChampionKills+champion.stats.totalAssists)/champion.stats.totalDeathsPerSession | number:2 }}</td>
+            <td>{{champion.stats.totalGoldEarned/champion.stats.totalSessionsPlayed | number:0 }}</td>
+            <th>{{champion.stats.totalPentaKills}}</th>
+            <th>{{champion.stats.totalFirstBlood}}</th>
+            <th>{{champion.stats.totalMinionKills/champion.stats.totalSessionsPlayed | number:0 }}</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div ng-show="summonerTab.season">
+      <h2>Season</h2>
+    </div>
+  </div>
+
 </div>

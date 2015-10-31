@@ -54,7 +54,11 @@ image-destroy:
 	$(DOCKER_RMI) $(DOCKER_IMAGE)
 
 run:
-	@$(DOCKER_RUN) --rm -t -i $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_PORT) $(DOCKER_LIVERELOAD) $(DOCKER_IMAGE) grunt serve
+	@$(DOCKER_RUN) -d $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_PORT) $(DOCKER_LIVERELOAD) $(DOCKER_IMAGE) grunt serve
+
+stop:
+	-@$(DOCKER_STOP) $(NAME)
+	-@$(DOCKER_PS) -a | grep $(DOCKER_IMAGE) | awk '{ print $$1 }' | xargs $(DOCKER_RM)
 
 command:
 	@$(DOCKER_RUN) --rm -t -i $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_IMAGE) /bin/sh

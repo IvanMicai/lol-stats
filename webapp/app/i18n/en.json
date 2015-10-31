@@ -1,0 +1,21 @@
+{
+	"BRAND_NAVBAR": "LoL - Stats",
+	"PROFILE": "Profile",
+	"COMPARE": "Compare",
+	"SUMMONER_NAME": "Summoner Name",
+	"SUMMONER": "Summoner",
+	"MATCHES": "Matches",
+	"CHAMPIONS": "Champions",
+	"SEASON": "Season",
+	"REGION": "Region",
+	"REGION_BR": "Brazil",
+	"REGION_EUNE": "Europe Nordic & East",
+	"REGION_EUW": "Europe West",
+	"REGION_KR": "Republic of Korea",
+	"REGION_LAN": "Latin America North",
+	"REGION_LAS": "Latin America South",
+	"REGION_NA": "North America",
+	"REGION_OCE": "Oceania",
+	"REGION_RU": "Russia",
+	"REGION_TR": "Turkey"
+}

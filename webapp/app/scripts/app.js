@@ -15,21 +15,37 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'pascalprecht.translate',
+    'lolStatsApp.matchService',
+    'lolStatsApp.summonerService',
+    'lolStatsApp.championsMapFactory',
+    'lolStatsApp.matchListService',
+    'lolStatsApp.summonerSummaryService',
+    'lolStatsApp.summonerChampionsService'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $translateProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/compare', {
+        templateUrl: 'views/compare.html',
+        controller: 'CompareCtrl',
+        controllerAs: 'compare'
       })
       .otherwise({
         redirectTo: '/'
       });
+
+    $translateProvider.useStaticFilesLoader({
+      prefix: 'locale/',
+      suffix: '.json'
+    });
+
+    $translateProvider.preferredLanguage('pt-br');
+    $translateProvider.useSanitizeValueStrategy('escaped');
+
   });
