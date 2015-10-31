@@ -2,6 +2,7 @@
 	"BRAND_NAVBAR": "LoL - Stats",
 	"PROFILE": "Profile",
 	"COMPARE": "Compare",
+  "WIN_RATIO": "Win Ratio",
   "SUMMONER_LOAD_ERROR": "Could not load!",
 	"SUMMONER_NAME": "Summoner Name",
 	"SUMMONER": "Summoner",

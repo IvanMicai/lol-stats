@@ -42,7 +42,7 @@
       </div>
       <div class="media-body">
         <h3 class="media-heading">{{ summoner.name }}</h3>
-        <h4>W:{{summonerChampions.total.stats.totalSessionsWon}} / L: {{summonerChampions.total.stats.totalSessionsLost}} ({{summonerChampions.total.stats.totalSessionsWon/summonerChampions.total.stats.totalSessionsPlayed*100 | number:2}})</h4>
+        <h4>W:{{summonerChampions.total.stats.totalSessionsWon}} / L: {{summonerChampions.total.stats.totalSessionsLost}} ({{'WIN_RATIO' | translate }}: {{summonerChampions.total.stats.totalSessionsWon/summonerChampions.total.stats.totalSessionsPlayed*100 | number:2}}%)</h4>
         <h4>
           <span class="text-success">{{summonerChampions.total.stats.totalChampionKills}}</span>
           /
@@ -51,9 +51,8 @@
           <span class="text-info">{{summonerChampions.total.stats.totalAssists}}</span>
         </h4>
         <h5>
-          Pental Kill {{summonerChampions.total.stats.totalPentaKills}}
-          |
-          Quadra Kill {{summonerChampions.total.stats.totalQuadraKills}}
+          <span class="label label-default">{{summonerChampions.total.stats.totalPentaKills}} Pental Kills</span>
+          <span class="label label-default">{{summonerChampions.total.stats.totalQuadraKills}} Quadra Kills</span>
         </h3>
       </div>
     </div>
@@ -94,7 +93,6 @@
             <ul class="list-inline">
               <li ng-repeat="champion in summonerChampions.data.champions | orderBy:'-stats.totalSessionsWon' | filter:{ tags: rule.name } | limitTo:3">
               <img ng-src="images/champions/{{championsMap[champion.id]}}.png" width="32" alt="{{championsMap[champion.id]}}">
-              <p class="clear-fix">{{champion.stats.totalSessionsWon/champion.stats.totalSessionsPlayed*100  | number:0 }}</p>
               </li>
             </ul>
           </div>
