@@ -9,15 +9,24 @@
  */
 angular.module('lolStatsApp')
   .controller('MainCtrl', function ($scope, $rootScope, championsMapFactory, summonerService, matchService, matchListService, summonerSummaryService, summonerChampionsService) {
-  
-  //Form 
+
+  //Form
   $rootScope.controllerCode = {main: true, compare: false};
   $scope.regionCode = 'NA';
   $scope.seasonCode = 'SEASON2015';
   $scope.summonerName = 'STRYDERJZW';
   $scope.championsMap = championsMapFactory;
+  $scope.tagFilterMap = {
+    Tank: false,
+    Fighter: false,
+    Mage: false,
+    Marksman: false,
+    Assassin: false,
+    Support: false
+  }
+
   $scope.summonerTab = {
-    matches: true,
+    rule: true,
     champions: false,
     season: false
   };
@@ -33,7 +42,7 @@ angular.module('lolStatsApp')
   //UI Functions
   $scope.profileTabSwitch = function(tab){
     $scope.summonerTab = {
-      matches: false,
+      rule: false,
       champions: false,
       season: false
     };
@@ -49,10 +58,28 @@ angular.module('lolStatsApp')
     loadSummoner()
   }
 
+  $scope.tagFilter = function(item){
+    if( $scope.tagFilterMap.Tank === false &&
+        $scope.tagFilterMap.Fighter === false &&
+        $scope.tagFilterMap.Mage === false &&
+        $scope.tagFilterMap.Marksman === false &&
+        $scope.tagFilterMap.Assassin === false &&
+        $scope.tagFilterMap.Support === false ){
+      return true
+    }
+
+    if($scope.tagFilterMap.Tank){    if( item.tags.indexOf('Tank') !== -1) return true };
+    if($scope.tagFilterMap.Fighter){ if( item.tags.indexOf('Fighter') !== -1) return true };
+    if($scope.tagFilterMap.Mage){    if( item.tags.indexOf('Mage') !== -1) return true };
+    if($scope.tagFilterMap.Marksman){if( item.tags.indexOf('Marksman') !== -1) return true };
+    if($scope.tagFilterMap.Assassin){if( item.tags.indexOf('Assassin') !== -1) return true };
+    if($scope.tagFilterMap.Support){ if( item.tags.indexOf('Support') !== -1) return true };
+  }
+
   function loadSummoner(){
     summonerService.get({region: $scope.regionCode.toLowerCase(), name: $scope.summonerName},
-      function(data) { 
-        $scope.summoner = data; 
+      function(data) {
+        $scope.summoner = data;
         loadMatchList();
         loadSummonerSummary();
         loadSummonerChampions();
@@ -63,8 +90,8 @@ angular.module('lolStatsApp')
 
   function loadMatchList(){
     matchListService.get({region: $scope.regionCode.toLowerCase(), summonerId: $scope.summoner.summonerId},
-      function(data) { 
-        $scope.matchList = data; 
+      function(data) {
+        $scope.matchList = data;
       },
       function(err) { console.log('controller', err); }
     );
@@ -72,8 +99,8 @@ angular.module('lolStatsApp')
 
   function loadMatches(){
       matchService.list({region: $scope.regionCode.toLowerCase(), matchId: $scope.matchList, limit: 20 },
-        function(data) { 
-          $scope.matches = data; 
+        function(data) {
+          $scope.matches = data;
         },
         function(err) { console.log('controller', err); }
       );
@@ -81,16 +108,16 @@ angular.module('lolStatsApp')
 
   function loadSummonerSummary(){
     summonerSummaryService.get({region: $scope.regionCode.toLowerCase(), season: $scope.seasonCode, summonerId: $scope.summoner.summonerId},
-      function(data) { 
-        $scope.summonerSummary = data; 
+      function(data) {
+        $scope.summonerSummary = data;
       },
       function(err) { console.log('controller', err); }
     );
   }
   function loadSummonerChampions(){
     summonerChampionsService.get({region: $scope.regionCode.toLowerCase(), season: $scope.seasonCode, summonerId: $scope.summoner.summonerId},
-      function(data) { 
-        $scope.summonerChampions = data; 
+      function(data) {
+        $scope.summonerChampions = data;
       },
       function(err) { console.log('controller', err); }
     );

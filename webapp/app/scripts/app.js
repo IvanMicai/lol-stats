@@ -31,11 +31,6 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/compare', {
-        templateUrl: 'views/compare.html',
-        controller: 'CompareCtrl',
-        controllerAs: 'compare'
-      })
       .otherwise({
         redirectTo: '/'
       });
@@ -45,7 +40,7 @@ angular
       suffix: '.json'
     });
 
-    $translateProvider.preferredLanguage('pt-br');
+    $translateProvider.preferredLanguage('en');
     $translateProvider.useSanitizeValueStrategy('escaped');
 
   });
