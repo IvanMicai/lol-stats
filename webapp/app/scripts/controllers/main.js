@@ -14,7 +14,7 @@ angular.module('lolStatsApp')
   $rootScope.controllerCode = {main: true, compare: false};
   $scope.regionCode = 'NA';
   $scope.seasonCode = 'SEASON2015';
-  $scope.summonerName = 'STRYDERJZW';
+  $scope.summonerName = '';
   $scope.championsMap = championsMapFactory;
   $scope.tagFilterMap = {
     Tank: false,
@@ -32,6 +32,9 @@ angular.module('lolStatsApp')
   };
 
   //Data Structures
+  $scope.summonerLoaded = 0;
+  $scope.summonerError = false;
+  $scope.summonerLoadFinish = false;
   $scope.summoner = {};
   $scope.matchList = {};
   $scope.matchs = {};
@@ -54,6 +57,12 @@ angular.module('lolStatsApp')
 		$scope.regionCode = region;
   }
 
+  $scope.summonerLoadedCount = function(){
+    $scope.summonerLoaded += 1;
+    if($scope.summonerLoaded === 3){
+      $scope.summonerLoadFinish = true;
+    }
+  }
   $scope.searchSummoner = function(){
     loadSummoner()
   }
@@ -79,6 +88,14 @@ angular.module('lolStatsApp')
   function loadSummoner(){
     summonerService.get({region: $scope.regionCode.toLowerCase(), name: $scope.summonerName},
       function(data) {
+        $scope.summonerLoaded = 0;
+        $scope.summonerLoadFinish = false;
+        $scope.summoner = {};
+        $scope.matchList = {};
+        $scope.matchs = {};
+        $scope.summonerSummary = {};
+        $scope.summonerChampions = {};
+
         $scope.summoner = data;
         loadMatchList();
         loadSummonerSummary();
@@ -92,34 +109,28 @@ angular.module('lolStatsApp')
     matchListService.get({region: $scope.regionCode.toLowerCase(), summonerId: $scope.summoner.summonerId},
       function(data) {
         $scope.matchList = data;
+        $scope.summonerLoadedCount();
       },
-      function(err) { console.log('controller', err); }
+      function(err) {  $scope.summonerError = true }
     );
   }
-
-  function loadMatches(){
-      matchService.list({region: $scope.regionCode.toLowerCase(), matchId: $scope.matchList, limit: 20 },
-        function(data) {
-          $scope.matches = data;
-        },
-        function(err) { console.log('controller', err); }
-      );
-  };
 
   function loadSummonerSummary(){
     summonerSummaryService.get({region: $scope.regionCode.toLowerCase(), season: $scope.seasonCode, summonerId: $scope.summoner.summonerId},
       function(data) {
         $scope.summonerSummary = data;
+        $scope.summonerLoadedCount();
       },
-      function(err) { console.log('controller', err); }
+      function(err) { $scope.summonerError = true }
     );
   }
   function loadSummonerChampions(){
     summonerChampionsService.get({region: $scope.regionCode.toLowerCase(), season: $scope.seasonCode, summonerId: $scope.summoner.summonerId},
       function(data) {
         $scope.summonerChampions = data;
+        $scope.summonerLoadedCount();
       },
-      function(err) { console.log('controller', err); }
+      function(err) { $scope.summonerError = true }
     );
   }
 

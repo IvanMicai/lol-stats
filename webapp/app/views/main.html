@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-lg-12">
-    <form class="form-horizontal">
+    <form class="form-horizontal" ng-submit="searchSummoner()">
       <div class="form-group">
         <label for="summonerName" class="col-sm-2 control-label">{{ 'SUMMONER' | translate }}</label>
         <div class="col-sm-10">
@@ -29,7 +29,11 @@
       </div>
     </form>
   </div>
-  <div class="col-lg-6">
+  <div class="col-lg-12 text-center" style="margin: 40px 0" ng-hide="summonerLoadFinish">
+    <h3 class="text-danger" ng-show="summonerError">{{ 'SUMMONER_LOAD_ERROR' | translate }}</h3>
+    <img src="images/League_of_Legends_logo.png">
+  </div>
+  <div class="col-lg-6" ng-show="summonerLoadFinish">
     <div class="media" style="margin-bottom: 10px">
       <div class="media-left">
         <a href="">
@@ -38,10 +42,43 @@
       </div>
       <div class="media-body">
         <h3 class="media-heading">{{ summoner.name }}</h3>
+        <h4>W:{{summonerChampions.total.stats.totalSessionsWon}} / L: {{summonerChampions.total.stats.totalSessionsLost}} ({{summonerChampions.total.stats.totalSessionsWon/summonerChampions.total.stats.totalSessionsPlayed*100 | number:2}})</h4>
+        <h4>
+          <span class="text-success">{{summonerChampions.total.stats.totalChampionKills}}</span>
+          /
+          <span class="text-danger">{{summonerChampions.total.stats.totalDeathsPerSession}}</span>
+          /
+          <span class="text-info">{{summonerChampions.total.stats.totalAssists}}</span>
+        </h4>
+        <h5>
+          Pental Kill {{summonerChampions.total.stats.totalPentaKills}}
+          |
+          Quadra Kill {{summonerChampions.total.stats.totalQuadraKills}}
+        </h3>
       </div>
     </div>
   </div>
-  <div class="col-lg-12">
+  <div class="col-lg-2 col-md-4"  ng-show="summonerLoadFinish" ng-repeat="rule in summonerChampions.rules | orderBy:'-value' | limitTo:1">
+    <div class="text-center" style="padding: 0 30px">
+      <img ng-src="images/rules/{{rule.name}}.jpg" class="img-responsive">
+      <h3 style="margin: 0">{{ 'CHAMPION_RULE_' + (rule.name | uppercase) | translate }}</h3>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-4"  ng-show="summonerLoadFinish" ng-repeat="rule in summonerChampions.rules | orderBy:'-value' | limitTo:1">
+    <ul class="list-inline text-center">
+      <li ng-repeat="champion in summonerChampions.data.champions | orderBy:'-stats.totalSessionsWon' | limitTo:3">
+        <img ng-src="images/champions/{{championsMap[champion.id]}}.png" width="100" alt="{{championsMap[champion.id]}}">
+        <h5 class="clear-fix">
+          <span class="text-success">{{champion.stats.totalChampionKills}}</span>
+          /
+          <span class="text-danger">{{champion.stats.totalDeathsPerSession}}</span>
+          /
+          <span class="text-info">{{champion.stats.totalAssists}}</span>
+        </h5>
+      </li>
+    </ul>
+  </div>
+  <div class="col-lg-12"  ng-show="summonerLoadFinish">
     <ul class="nav nav-tabs nav-justified">
       <li role="presentation" ng-click="profileTabSwitch('rule')" ng-class="{'active': summonerTab.rule}"><a href="javascript:void(0)">{{ 'RULE' | translate }}</a></li>
       <li role="presentation" ng-click="profileTabSwitch('champions')"  ng-class="{'active': summonerTab.champions}"><a href="javascript:void(0)">{{ 'CHAMPIONS' | translate }}</a></li>
@@ -53,13 +90,13 @@
           <div class="text-center">
             <h3>{{ 'CHAMPION_RULE_' + (rule.name | uppercase) | translate }}</h3>
             <img ng-src="images/rules/{{rule.name}}.jpg" class="img-responsive">
+            <h4>{{rule.value}} {{ 'MATCHES' | translate }}</h4>
             <ul class="list-inline">
               <li ng-repeat="champion in summonerChampions.data.champions | orderBy:'-stats.totalSessionsWon' | filter:{ tags: rule.name } | limitTo:3">
               <img ng-src="images/champions/{{championsMap[champion.id]}}.png" width="32" alt="{{championsMap[champion.id]}}">
               <p class="clear-fix">{{champion.stats.totalSessionsWon/champion.stats.totalSessionsPlayed*100  | number:0 }}</p>
               </li>
             </ul>
-             <tr class="active" >
           </div>
         </div>
       </div>
