@@ -9,6 +9,11 @@ credentials-apikey:
 	@echo "	apiKey: '"$(key)"'" >> webservice/config/credentials.js
 	@echo "}"                   >> webservice/config/credentials.js
 
+test:
+	cd mongoservice; make run
+	cd webservice; make test
+	cd mongoservice; make stop
+
 build:
 	cd webservice; make npm-update
 	cd webapp; make npm-update; make bower-update

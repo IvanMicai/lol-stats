@@ -7,7 +7,15 @@ League of Legends Statistics Demo
 
     make build (Initialization)
     make make credentials-apikey key=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (Create credentials for Roit API)
+    
+##Running LoL Stats in development mode
+
     make run (Start Containers)
+    Navigate to http://localhost:9000/ in your favourite browser.
+
+##Running Tests
+
+    make test
 
 ##Screenshots 
 ---------
@@ -17,3 +25,5 @@ Rules
 ![rules](https://cloud.githubusercontent.com/assets/292607/10865725/9e606f24-7ffc-11e5-9862-dde9caa93b45.png)
 Season
 ![season](https://cloud.githubusercontent.com/assets/292607/10865735/d52b3426-7ffc-11e5-8f20-c9905a594042.png)
+
+
