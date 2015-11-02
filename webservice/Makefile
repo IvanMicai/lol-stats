@@ -48,7 +48,7 @@ DOCKER_MONGO_NAME          = --name $(MONGO_NAME)
 DOCKER_MONGO_VOLUME        = -v /var/lol-stats/mongo:/data/db
 DOCKER_MONGO_PORT          = -p 27017:27017
 
-.PHONY: image-build image-push image-run image-command image-destroy run stop command npm-update
+.PHONY: image-build image-push image-run image-command image-destroy run run-debug test stop command npm-update
 
 image-build:
 	@$(RM) -rf node_modules
@@ -65,6 +65,9 @@ run:
 
 run-debug:
 	@$(DOCKER_RUN) --rm -t -t $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_PORT) $(DOCKER_MONGO_LINK) $(DOCKER_IMAGE) node server.js
+
+test:
+	@$(DOCKER_RUN) --rm -t -t $(DOCKER_NAME) $(DOCKER_VOLUME) $(DOCKER_PORT) $(DOCKER_MONGO_LINK) $(DOCKER_IMAGE) mocha --recursive
 
 stop:
 	-@$(DOCKER_STOP) $(NAME)

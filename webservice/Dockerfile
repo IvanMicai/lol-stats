@@ -1,6 +1,6 @@
 FROM node:4.1.2
 
 #install NodeJS
-RUN npm install -g express
+RUN npm install -g express mocha
 
 WORKDIR /app

@@ -8,11 +8,11 @@ module.exports = {
 		allowedDomains: ['http://localhost:9000', undefined]
 	},
 	qa: {
-		mongoUrl: 'mongodb://localhost/qa-lol-stats',
-		allowedDomains: []
+		mongoUrl: 'mongodb://lol-stats-mongoservice/qa-lol-stats',
+		allowedDomains: ['http://qa.lol-stats.com']
 	},
 	production: {
-		mongoUrl: 'mongodb://localhost/prod-lol-stats',
-		allowedDomains: []
+		mongoUrl: 'mongodb://lol-stats-mongoservice/prod-lol-stats',
+		allowedDomains: ['http://lol-stats.com']
 	}
 }

@@ -13,5 +13,9 @@
     "express": "^4.13.3",
     "mongoose": "^4.2.3",
     "request": "^2.65.0"
+  },
+  "devDependencies": {
+    "expect": "^1.12.2",
+    "mocha": "^2.3.3"
   }
 }
