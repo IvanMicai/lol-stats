@@ -4,7 +4,7 @@
 
 var request = require('request');
 
-module.exports = function (req, res, next) { 
+module.exports = function (req, res, next) {
 	if(res.dataSource === 'external'){
 		var lane = {
 			MID: 0,
@@ -13,6 +13,8 @@ module.exports = function (req, res, next) {
 			JUNGLE: 0
 		}
 
+    console.log(res.data)
+
 		for (var i = 0; i < res.data.matches.length; i++) {
 			lane[res.data.matches[i].lane] += 1
 		};
@@ -20,5 +22,5 @@ module.exports = function (req, res, next) {
 		res.data.lane = lane;
 	}
 
-	return next()	
+	return next()
 };

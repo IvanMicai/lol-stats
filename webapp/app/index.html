@@ -21,31 +21,36 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-
-      <div class="navbar navbar-default" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-              <img alt="Brand" src="images/logo.png" width="25">
-            </a>
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href="#/" translate="BRAND_NAVBAR"></a>
-          </div>
-
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
-            <ul class="nav navbar-nav">
-            </ul>
-          </div>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            <img alt="Brand" src="images/logo.png" width="25">
+          </a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/#" translate="BRAND_NAVBAR"></a>
         </div>
-      </div>
 
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown" ng-controller="TranslateCtrl">
+              <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'LANGUAGE' | translate }} <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="javascript:void(0)" ng-click="changeLanguage('en')">English</a></li>
+                <li><a href="javascript:void(0)" ng-click="changeLanguage('pt-br')">Português (Brasil)</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
 
     <div class="container">
     <div ng-view=""></div>
@@ -93,6 +98,7 @@
         <script src="scripts/services/summonerSummary.js"></script>
         <script src="scripts/services/summonerChampions.js"></script>
         <script src="scripts/factories/championsMap.js"></script>
+        <script src="scripts/controllers/translate.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <!-- endbuild -->
 </body>
