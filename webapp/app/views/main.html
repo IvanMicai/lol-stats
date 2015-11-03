@@ -137,34 +137,56 @@
       <table class="table">
         <thead>
           <tr>
-            <th>#</th>
-            <th>PR</th>
-            <th>W</th>
-            <th>L</th>
-            <th>P</th>
-            <th>W%</th>
-            <th>K/D/A</th>
-            <th>KDA</th>
-            <th>G</th>
-            <th>PK</th>
-            <th>FB</th>
-            <th>LH~</th>
+            <th class="text-center">#</th>
+            <th class="text-center">{{ 'CHAMPION_STATUS' | translate }}</th>
+            <th class="text-center">{{ 'CHAMPION_MATCHES' | translate }}</th>
+            <th class="text-center">{{ 'CHAMPION_KDA' | translate }}</th>
+            <th class="text-center">{{ 'CHAMPION_MISCELLANEOUS' | translate }}</th>
           </tr>
         </thead>
         <tbody>
           <tr class="active" ng-repeat="champion in summonerChampions.data.champions | orderBy:'-stats.totalSessionsWon' | filter: tagFilter">
             <td><img ng-src="images/champions/{{championsMap[champion.id]}}.png" width="64" alt="{{championsMap[champion.id]}}"></td>
-            <td>{{champion.stats.pickRate | number:2}}</td>
-            <td>{{champion.stats.totalSessionsWon}}</td>
-            <td>{{champion.stats.totalSessionsLost}}</td>
-            <td>{{champion.stats.totalSessionsPlayed}}</td>
-            <td>{{champion.stats.totalSessionsWon/champion.stats.totalSessionsPlayed*100  | number:0 }}</td>
-            <td>{{champion.stats.totalChampionKills}}/{{champion.stats.totalDeathsPerSession}}/{{champion.stats.totalAssists}}</td>
-            <td>{{(champion.stats.totalChampionKills+champion.stats.totalAssists)/champion.stats.totalDeathsPerSession | number:2 }}</td>
-            <td>{{champion.stats.totalGoldEarned/champion.stats.totalSessionsPlayed | number:0 }}</td>
-            <th>{{champion.stats.totalPentaKills}}</th>
-            <th>{{champion.stats.totalFirstBlood}}</th>
-            <th>{{champion.stats.totalMinionKills/champion.stats.totalSessionsPlayed | number:0 }}</th>
+            <td>
+              <dl class="dl-horizontal">
+                <dt>{{ 'CHAMPION_PICKRATE' | translate }}</dt>
+                <dd>{{champion.stats.pickRate | number:2}}%</dd>
+                <dt>{{ 'CHAMPION_WIN_RATION' | translate }}</dt>
+                <dd>{{champion.stats.totalSessionsWon/champion.stats.totalSessionsPlayed*100  | number:0 }}%</dd>
+                <dt>{{ 'CHAMPION_PLAYED' | translate }}</dt>
+                <dd>{{champion.stats.totalSessionsPlayed}}</dd>
+              </dl>
+            </td>
+            <td>
+              <dl class="dl-horizontal">
+                <dt>{{ 'CHAMPION_VICTORY' | translate }}</dt>
+                <dd>{{champion.stats.totalSessionsWon}}</dd>
+                <dt>{{ 'CHAMPION_DEFEAT' | translate }}</dt>
+                <dd>{{champion.stats.totalSessionsLost}}</dd>
+                <dt>{{ 'CHAMPION_PLAYED' | translate }}</dt>
+                <dd>{{champion.stats.totalSessionsPlayed}}</dd>
+              </dl>
+            </td>
+            <td class="text-center">
+              <span class="text-success">{{champion.stats.totalChampionKills}}</span>
+              /
+              <span class="text-danger">{{champion.stats.totalDeathsPerSession}}</span>
+              /
+              <span class="text-info">{{champion.stats.totalAssists}}</span>
+              <p class="clear-fix">
+                <span class="label label-default">{{(champion.stats.totalChampionKills+champion.stats.totalAssists)/champion.stats.totalDeathsPerSession | number:2 }}</span>
+              <p>
+            </td>
+            <td>
+              <dl class="dl-horizontal">
+                <dt>{{ 'CHAMPION_AVG_GOLDEARNED' | translate }}</dt>
+                <dd>{{champion.stats.totalGoldEarned/champion.stats.totalSessionsPlayed | number:0 }}</dd>
+                <dt>{{ 'CHAMPION_AVG_MINIONKILLS' | translate }}</dt>
+                <dd>{{champion.stats.totalMinionKills/champion.stats.totalSessionsPlayed | number:0 }}</dd>
+                <dt>{{ 'CHAMPION_PENTAKILLS' | translate }}</dt>
+                <dd>{{champion.stats.totalPentaKills}}</dd>
+              </dl>
+            </td>
           </tr>
         </tbody>
       </table>
